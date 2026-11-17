@@ -18,7 +18,7 @@ def client():
 
 def test_health(client):
     r = client.get("/health")
-    assert r.status_code == 200 and r.json() == {"status": "ok"}
+    assert r.status_code == 200 and r.json() == {"status": "up"}
 
 
 def test_notes_require_auth(client):
