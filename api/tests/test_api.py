@@ -36,3 +36,15 @@ def test_full_flow(client):
     assert [x["title"] for x in client.get("/notes", headers=h).json()] == ["Premiere note"]
     assert client.delete(f"/notes/{n.json()['id']}", headers=h).status_code == 204
     assert client.get("/notes", headers=h).json() == []
+
+
+def test_note_of_another_user(client):
+    tokens = []
+    for _ in range(2):
+        email = f"{uuid.uuid4().hex[:8]}@example.com"
+        r = client.post("/auth/register", json={"email": email, "password": "motdepasse123"})
+        tokens.append({"Authorization": f"Bearer {r.json()['access_token']}"})
+    note = client.post("/notes", json={"title": "Privee", "body": ""}, headers=tokens[0]).json()
+    assert client.get("/notes", headers=tokens[1]).json() == []
+    assert client.delete(f"/notes/{note['id']}", headers=tokens[1]).status_code == 404
+    assert client.delete(f"/notes/{note['id']}", headers=tokens[0]).status_code == 204
