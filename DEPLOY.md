@@ -2,10 +2,10 @@
 
 Remplacer `hugo-tp-api` et `hugo-tp-client` par des noms uniques (les noms d'apps Scalingo sont globaux). Region : `osc-fr1` (Paris).
 
-## 0. Prerequis (a faire toi-meme, une seule fois)
+## 0. Prerequis (une seule fois)
 1. Voucher : partners.learn.ynov.com (compte Ynov) -> recuperer le voucher.
 2. Compte sur scalingo.com, puis Billing -> Voucher (mettre fin a l'essai avec le bouton propose pour l'activer). Un profil de facturation et un moyen de paiement valides sont exiges.
-3. CLI : https://doc.scalingo.com/platform/cli/start puis `scalingo login`, et ajouter ta cle SSH (`scalingo keys-add me ~/.ssh/id_ed25519.pub`).
+3. CLI : https://doc.scalingo.com/platform/cli/start puis `scalingo login`, et ajouter sa cle SSH (`scalingo keys-add me ~/.ssh/id_ed25519.pub`).
 4. Depot GitHub : `git init && git add . && git commit -m "feat: projet initial" && git branch -M main`, puis `gh repo create tp-scalingo --public --source=. --push` (ou depot cree a la main).
 
 ## 1. API + base
@@ -22,7 +22,7 @@ Controle : `curl https://hugo-tp-api.osc-fr1.scalingo.io/health` -> 200 et `/doc
 
 > Sans cle SSH sur le compte, `git push scalingo` ne marche pas. Alternative utilisee pour les premiers deploiements : `git archive --format=tar.gz --prefix=tp-scalingo/ -o tp.tar.gz HEAD` puis `scalingo --app hugo-tp-api deploy tp.tar.gz` (le dossier `--prefix` est obligatoire, sinon `PROJECT_DIR: 'api' is not a valid directory`).
 
-> Monorepo : `git-setup` ajoute le remote `scalingo` ; si tu deploies deux apps depuis le meme depot, nomme les remotes : `git remote add scalingo-api git@ssh.osc-fr1.scalingo.com:hugo-tp-api.git` et `git remote add scalingo-client ...`, puis `git push scalingo-api main`.
+> Monorepo : `git-setup` ajoute le remote `scalingo` ; pour deployer deux apps depuis le meme depot, il faut nommer les remotes : `git remote add scalingo-api git@ssh.osc-fr1.scalingo.com:hugo-tp-api.git` et `git remote add scalingo-client ...`, puis `git push scalingo-api main`.
 
 ## 2. Client
 ```bash
